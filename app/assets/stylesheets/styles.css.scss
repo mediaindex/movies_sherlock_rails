@@ -50,6 +50,25 @@ $dark-secondary: rgba( $dark, .7 );
   color: $green;
 }
 
+.flash {
+  visibility: hidden;
+  opacity: 0;
+  width: 100%;
+  position: absolute;
+  padding: 1em 0;
+  text-align: center;
+  color: $light;
+  @include animation(Errors 5s cubic-bezier(0.45, 0.43, 0.52, 1.03));
+
+  &.error {
+    background: $red;
+  }
+
+  &.success {
+    background: $green;
+  }
+}
+
 .errors_container {
   visibility: hidden;
   opacity: 0;
@@ -226,7 +245,7 @@ form {
   position: relative;
 
   input,
-  button {
+  input[type='submit'] {
     width: 50%;
     display: block;
     margin: 0 auto;
@@ -256,7 +275,7 @@ form {
     }
   }
 
-  button {
+  input[type='submit'] {
     max-width: 300px;
     background-color: $orange;
     color: $light;

@@ -14,4 +14,7 @@ html lang="en"
 
   body
     section
+      - flash.each do |type, message|
+        .div[class="flash #{type}"]
+          = message
       == yield
