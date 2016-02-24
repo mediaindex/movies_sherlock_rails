@@ -1,0 +1,508 @@
+@import "bourbon";
+
+// Variables
+
+$main: #8e9eab;
+$accent: #0b2653;
+$neutral: #eee;
+$dark: #000;
+$light: #fff;
+$orange: #e4805a;
+$red: #ca5959;
+$green: #008e7d;
+
+// Type scale
+
+$light-intense: #fff;
+$dark-intense: #000;
+$dark-secondary: rgba( $dark, .7 );
+
+// Breakpoint mixin
+
+@mixin media($class) {
+  @if $class == tablet {
+    @media (min-width: 860px) { @content; }
+  }
+  @if $class == mobile {
+    @media (max-width: 800px) and (orientation: landscape) { @content; }
+    @media (max-width: 500px) and (orientation: portrait) { @content; }
+  }
+  @if $class == mobile_low {
+    @media (max-width: 568px) and (orientation: landscape) { @content; }
+  }
+}
+
+/* Helpers */
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  @include transform(translate(-50%, -50%));
+}
+
+.red {
+  color: $red;
+}
+
+.green {
+  color: $green;
+}
+
+.errors_container {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: $red;
+  height: 100%;
+  border-radius: 12px;
+  z-index: 1;
+  @include animation(Errors 5s cubic-bezier(0.45, 0.43, 0.52, 1.03));
+
+  ul {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 10px;
+      color: $light;
+    }
+  }
+}
+
+@include keyframes(Errors) {
+  0%, 100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  10%, 80% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Basic setup */
+
+html {
+  height: 100%;
+  color: $dark-secondary;
+  background: $accent;
+  @include background(
+                  linear-gradient(top, rgba(57, 173, 219, .25) 0%, rgba(42, 60, 87, .4) 100%),
+                  linear-gradient(-45deg, #670d10 0%, #092756 100%)
+  );
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, .title {
+  font-size: 4em;
+  color: #fff8dc;
+  text-shadow: rgb(255, 144, 39) 2px 2px;
+  @include media(mobile) {
+    font-size: 2em;
+  }
+}
+
+h2 {
+  font-size: 2em;
+  color: $light;
+  margin-bottom: 40px;
+  @include media(mobile) {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+}
+
+p {
+  color: $light;
+  font-size: 1em;
+}
+
+a {
+  color: $light;
+  text-decoration: none;
+
+  &:hover {
+    color: $orange;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+/* Logo */
+
+.logo,
+.icon {
+  @include media(mobile) {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.logo {
+  @include animation(Rotate 3s 2s cubic-bezier(0.45, 0.43, 0.52, 1.03));
+  @include media(mobile_low) {
+    display: none;
+  }
+}
+
+@include keyframes(Rotate) {
+  from {
+    @include transform(rotate(0deg));
+  }
+  to {
+    @include transform(rotate(360deg));
+  }
+}
+
+.auth_toolbar {
+  position: absolute;
+  left: 1em;
+  top: 1em;
+  z-index: 1;
+}
+
+/*  Authentication toolbar */
+
+.auth_toolbar {
+  top: 1.2em;
+  left: initial;
+  right: 1em;
+  @include media(mobile) {
+    top: .1em;
+  }
+
+  a {
+    display: inline-block;
+    margin: 0 10px;
+    @include media(mobile) {
+      display: block;
+      margin: 10px 0;
+      text-align: right;
+    }
+  }
+
+  .avatar {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    background: $dark;
+    margin: 0 10px;
+    vertical-align: middle;
+    @include media(mobile) {
+      display: none;
+    }
+  }
+}
+
+.log_out a {
+  color: $orange;
+
+  &:hover {
+    color: $light-intense;
+  }
+}
+
+/* Form */
+
+form {
+  position: relative;
+
+  input,
+  button {
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    transition: all 0.5s ease-in-out;
+  }
+
+  input {
+    min-width: 200px;
+    max-width: 400px;
+    height: 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0);
+    margin-top: 15px;
+    font-weight: bolder;
+    color: $light;
+    @include placeholder {
+      color: $light;
+    }
+
+    &:focus {
+      outline: 0;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0);
+    }
+  }
+
+  button {
+    max-width: 300px;
+    background-color: $orange;
+    color: $light;
+    height: 39px;
+    border-radius: 20px;
+    margin-top: 30px;
+    border: none;
+    text-transform: uppercase;
+    font-size: .9em;
+    @include media(mobile_low) {
+      margin-top: 14px;
+    }
+
+    &:hover {
+      background: #4082f5;
+      box-shadow: 0 4px 35px -5px #4082f5;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .file {
+    @extend input;
+    width: inherit;
+    line-height: 1;
+    padding: 0.65em;
+    position: relative;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+    font-size: 0.9em;
+  }
+
+  .file.active .file-label {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .file.focus {
+    outline: 0;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    background: transparent;
+  }
+
+  .file.focus::after {
+    border-top-color: #709AD0;
+  }
+
+  /* hide and overlay when JavaScript is enabled */
+
+  .file input,
+  .file input::-webkit-file-upload-button {
+    cursor: pointer;
+  }
+
+  .file input {
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    /* strange input behavior in IE */
+    font-size: 10em;
+  }
+
+  /* show file value when selected */
+
+  .file-value {
+    color: #709AD0;
+    display: none;
+  }
+
+  .file-value::before {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjQgMjQiIGhlaWdodD0iMTAwIiB3aWR0aD0iMTAwIj48cGF0aCBmaWxsPSIjNzA5QUQwIiBkPSJNMTQgMkg2Yy0xLjEgMC0yIC45LTIgMnYxNmMwIDEuMS45IDIgMiAyaDEyYzEuMSAwIDItLjkgMi0yVjhsLTYtNnptNC41IDdIMTNWMy41TDE4LjUgOXoiLz48L3N2Zz4NCg==);
+    background-position: center;
+    background-size: 100% auto;
+    content: '';
+    display: inline-block;
+    height: 1.5em;
+    line-height: 0;
+    margin: -0.55em 0.25em -0.45em 0;
+    position: relative;
+    width: 1.5em;
+  }
+
+  .file.active .file-value {
+    display: inline;
+  }
+}
+
+/* Table */
+
+.table-wrapper {
+  margin: 40px 10px;
+  position: relative;
+  overflow: hidden;
+  @include media(tablet) {
+    max-width: 900px;
+    margin: 40px auto;
+  }
+
+  .table-inner {
+    overflow: scroll;
+    max-height: 800px;
+    @include media(mobile) {
+      max-height: 420px;
+    }
+  }
+
+  @include media(tablet) {
+    overflow: visible;
+    box-shadow: none;
+    &:after {
+      content: none;
+    }
+  }
+}
+
+table {
+  font-size: .7em;
+  overflow: hidden;
+  border-radius: 5px;
+  margin: 0 auto;
+  @include media(tablet) {
+    font-size: .8em;
+  }
+
+  caption {
+    font-size: 1.5em;
+    color: $light-intense;
+    margin-bottom: 23px;
+    text-align: left;
+    @include media(tablet) {
+      font-size: 40px;
+    }
+  }
+
+  th,
+  td {
+    padding: 1em;
+    min-width: 100px;
+    border: none;
+    background: $neutral;
+    text-align: left;
+  }
+
+  th {
+    background: $main;
+    color: $light-intense;
+  }
+
+  td:first-child {
+    font-weight: bold;
+    text-align: left;
+  }
+
+  tr:nth-child(even) td {
+    background: lighten($neutral, 12%);
+  }
+}
+
+/* Links */
+
+.link,
+.make_with_love {
+  text-align: center;
+  @include media(mobile_low) {
+    padding-top: 20px;
+  }
+
+  a {
+    font-weight: 200;
+    font-size: .7em;
+    text-transform: uppercase;
+  }
+}
+
+.link {
+  margin-top: 20px;
+}
+
+.make_with_love {
+  padding-top: 40px;
+}
+
+/* User page */
+
+.site_statistics,
+.my_searches {
+  margin-bottom: 60px;
+
+  .title {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .block {
+    display: inline-block;
+    margin: 0 20px;
+  }
+
+  h2 {
+    display: block;
+    color: $orange;
+  }
+
+  span {
+    color: $light;
+  }
+
+  .movies_rating {
+    padding: 0;
+
+    li {
+      padding: 2px 0;
+      display: block;
+      color: $orange;
+    }
+  }
+}
+
+.links {
+  margin-top: 40px;
+}
+
+/* Search history */
+
+.search_history {
+  p {
+    color: white;
+  }
+
+  ul {
+    padding: 30px 0 0;
+  }
+
+  li {
+    padding: 10px 0;
+  }
+}
